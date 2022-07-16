@@ -4,6 +4,7 @@ import { Searchbar } from './Searchbar';
 import { Modal } from './Modal/Modal';
 import { Loader } from './Loader';
 import { ImageGallery } from './ImageGallery';
+import { Button } from './Button';
 
 const key = '16825213-7fb8f93f8fb61dc742d5122ac';
 
@@ -13,16 +14,17 @@ export class App extends Component {
     loading: false,
     searchQuery: '',
     error: '',
+    page: 1,
   };
 
   getImages = async () => {
-    const { searchQuery } = this.state;
+    const { searchQuery, page } = this.state;
     try {
       this.setState({
         loading: true,
       });
       const response =
-        await axios.get(`https://pixabay.com/api/?q=${searchQuery}&page=1&key=${key}&image_type=photo&orientation=horizontal&per_page=12
+        await axios.get(`https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12
 
 `);
       console.log('response', response.data.hits);
@@ -43,6 +45,9 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       console.log('new searrch', prevState.searchQuery, this.state.searchQuery);
+      this.setState({
+        page: 1,
+      });
       this.getImages();
     }
   }
@@ -52,6 +57,13 @@ export class App extends Component {
     this.setState({
       searchQuery: query,
     });
+  };
+
+  onLoadClick = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+    this.getImages();
   };
 
   render() {
@@ -69,7 +81,8 @@ export class App extends Component {
       >
         <Searchbar onSubmit={this.onSubmit} />
         {loading ? <Loader /> : error ? error : <ImageGallery data={images} />}
-        <Modal />
+        {images.length ? <Button onClick={this.onLoadClick} /> : null}
+        {/* <Modal /> */}
       </div>
     );
   }
