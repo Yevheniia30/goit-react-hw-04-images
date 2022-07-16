@@ -10,7 +10,7 @@ export class Searchbar extends Component {
   };
 
   handleChange = e => {
-    console.log('e current Target', e.currentTarget.value);
+    // console.log('e current Target', e.currentTarget.value);
     this.setState({
       query: e.currentTarget.value.toLowerCase(),
     });
