@@ -11,15 +11,18 @@ export class App extends Component {
   state = {
     images: [],
     loading: false,
+    searchQuery: '',
+    error: '',
   };
 
-  async componentDidMount() {
-    this.setState({
-      loading: true,
-    });
+  getImages = async () => {
+    const { searchQuery } = this.state;
     try {
+      this.setState({
+        loading: true,
+      });
       const response =
-        await axios.get(`https://pixabay.com/api/?q=cat&page=1&key=${key}&image_type=photo&orientation=horizontal&per_page=12
+        await axios.get(`https://pixabay.com/api/?q=${searchQuery}&page=1&key=${key}&image_type=photo&orientation=horizontal&per_page=12
 
 `);
       console.log('response', response.data.hits);
@@ -27,41 +30,46 @@ export class App extends Component {
         images: response.data.hits,
       });
     } catch (error) {
-      console.log('error');
+      this.setState({
+        error: 'Oops something went wrong...try again;',
+      });
     } finally {
       this.setState({
         loading: false,
       });
     }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchQuery !== this.state.searchQuery) {
+      console.log('new searrch', prevState.searchQuery, this.state.searchQuery);
+      this.getImages();
+    }
   }
+
+  onSubmit = query => {
+    console.log('query', query);
+    this.setState({
+      searchQuery: query,
+    });
+  };
 
   render() {
     console.log('images', this.state.images);
-
+    const { images, loading, error } = this.state;
+    console.log('searchquery', this.state.searchQuery);
     return (
       <div
         style={{
-          // height: '100vh',
-          // display: 'flex',
-          // flexDirection: 'column',
-          // justifyContent: 'center',
-          // alignItems: 'center',
-          // // fontSize: 40,
-          // color: '#010101',
-
           display: 'grid',
           gridTemplateColumns: '1fr',
           gridGap: '16px',
           paddingBottom: '24px',
         }}
       >
-        <Searchbar />
-        {this.state.loading ? (
-          <Loader />
-        ) : (
-          <ImageGallery data={this.state.images} />
-        )}
-        {/* <Modal /> */}
+        <Searchbar onSubmit={this.onSubmit} />
+        {loading ? <Loader /> : error ? error : <ImageGallery data={images} />}
+        <Modal />
       </div>
     );
   }
