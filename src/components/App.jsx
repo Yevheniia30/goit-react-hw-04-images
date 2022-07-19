@@ -72,12 +72,15 @@ export class App extends Component {
     this.getImages();
   };
 
-  onOpenModal = e => {
-    if (e.target.nodeName === 'IMG') {
-      this.setState({
-        isModalImage: e.target.dataset.modal,
-      });
-    }
+  onOpenModal = id => {
+    // console.log('id', id);
+    const currentImage = this.state.images.find(item => item.id === id);
+    // console.log('currentImage', currentImage);
+    this.setState({
+      isModalImage: currentImage.largeImageURL,
+      isAltModalImage: currentImage.tags,
+      // isModalImage: e.target.dataset.modal,
+    });
   };
 
   onCloseModal = () => {
