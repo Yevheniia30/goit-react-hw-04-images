@@ -95,14 +95,15 @@ export const App = () => {
     setPage(page => page + 1);
   };
 
-  const onOpenModal = e => {
-    if (e.target.nodeName === 'IMG') {
-      // this.setState({
-      //   isModalImage: e.target.dataset.modal,
-      // });
-      setisModalImage(e.target.dataset.modal);
-      setisAltModalImage(e.target.alt);
-    }
+  const onOpenModal = id => {
+    // console.log('id', id);
+    const currentImage = this.state.images.find(item => item.id === id);
+    // console.log('currentImage', currentImage);
+    this.setState({
+      isModalImage: currentImage.largeImageURL,
+      isAltModalImage: currentImage.tags,
+      // isModalImage: e.target.dataset.modal,
+    });
   };
 
   const onCloseModal = () => {
