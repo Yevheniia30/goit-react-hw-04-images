@@ -12,12 +12,12 @@ export const ImageGalleryItem = ({ item, onClickToOpenModal }) => {
         className={s.ImageGalleryItem_image}
         src={item?.webformatURL}
         alt={item?.tags}
-        data-modal={item?.largeImageURL}
+        // data-modal={item?.largeImageURL}
       />
     </li>
   );
 };
 
 ImageGalleryItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.isRequired,
 };

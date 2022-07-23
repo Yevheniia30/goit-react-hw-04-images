@@ -1,4 +1,3 @@
-// import PropTypes from 'prop-types';
 import s from './Loader.module.css';
 import { MutatingDots } from 'react-loader-spinner';
 
@@ -15,5 +14,3 @@ export const Loader = () => {
     </div>
   );
 };
-
-// Loader.propTypes = {};
