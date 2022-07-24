@@ -92,10 +92,12 @@ export const App = () => {
       {isLoading && <Loader />}
       {isModalImage && (
         <Modal
-          image={isModalImage}
-          altImage={isAltModalImage}
+          // image={isModalImage}
+          // altImage={isAltModalImage}
           onClose={onCloseModal}
-        />
+        >
+          <img src={isModalImage} alt={isAltModalImage} />
+        </Modal>
       )}
     </div>
   );

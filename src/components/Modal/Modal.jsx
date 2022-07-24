@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 
-export const Modal = ({ image, altImage, onClose }) => {
+export const Modal = ({ children, onClose }) => {
   const modalRoot = document.getElementById('modal-root');
   const body = document.querySelector('body');
 
@@ -32,7 +32,8 @@ export const Modal = ({ image, altImage, onClose }) => {
   return createPortal(
     <div className={s.Overlay} onClick={handleOverlay}>
       <div className={s.Modal}>
-        <img src={image} alt={altImage} />
+        {/* <img src={image} alt={altImage} /> */}
+        {children}
       </div>
     </div>,
     modalRoot
@@ -40,7 +41,8 @@ export const Modal = ({ image, altImage, onClose }) => {
 };
 
 Modal.propTypes = {
-  image: PropTypes.string.isRequired,
-  altImage: PropTypes.string.isRequired,
+  // image: PropTypes.string.isRequired,
+  // altImage: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
